@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using System;
 
 public class Movement_B : MonoBehaviour
@@ -17,6 +18,8 @@ public class Movement_B : MonoBehaviour
     private LayerMask groundLayer; // 地面层
     [SerializeField]
     private AudioClip respawnSound; // 重生音效
+    [SerializeField]
+    private AudioMixerGroup audioMixerGroup; // 音频混音器组
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
@@ -36,6 +39,12 @@ public class Movement_B : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // 设置音频混音器组
+        if (audioMixerGroup != null)
+        {
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
 
         // 初始地面检测
