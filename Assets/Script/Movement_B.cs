@@ -10,10 +10,13 @@ public class Movement_B : MonoBehaviour
     private float jumpForce = 10f; // 跳跃力
     [SerializeField]
     private float acceleration = 5f; // 加速度
+    [SerializeField]
+    private float fallThreshold = -10f; // y 轴低于该值时传送回检查点
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
     private Vector3 currentVelocity = Vector3.zero; // 当前速度
+    private Vector3 checkpoint; // 检查点位置
 
     void Start()
     {
@@ -22,6 +25,9 @@ public class Movement_B : MonoBehaviour
 
         // 初始地面检测
         CheckGroundStatus();
+
+        // 初始化检查点为起始位置
+        checkpoint = transform.position;
     }
 
     void Update()
@@ -30,6 +36,12 @@ public class Movement_B : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Jump();
+        }
+
+        // 检查玩家位置
+        if (transform.position.y < fallThreshold)
+        {
+            Respawn();
         }
     }
 
@@ -125,5 +137,18 @@ public class Movement_B : MonoBehaviour
                 isGrounded = true;
             }
         }
+    }
+
+    // 设置检查点位置
+    public void SetCheckpoint(Vector3 newCheckpoint)
+    {
+        checkpoint = newCheckpoint;
+    }
+
+    // 传送玩家回到检查点
+    private void Respawn()
+    {
+        transform.position = checkpoint;
+        rb.velocity = Vector3.zero; // 重置速度
     }
 }
