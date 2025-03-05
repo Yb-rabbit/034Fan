@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 1827221213}
   - component: {fileID: 1827221212}
   - component: {fileID: 1827221217}
+  - component: {fileID: 1827221219}
   - component: {fileID: 1827221218}
   m_Layer: 0
   m_Name: Cube
@@ -496,7 +497,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827221211}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59e051e486d581c4a86913c2e137bb14, type: 3}
   m_Name: 
@@ -517,6 +518,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 77871b1248130684b96a517258d10a3c, type: 2}
+  speed: 0.4
+--- !u!114 &1827221219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827221211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9e352bfa12a974fa88ec197821c4fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundSpeed: 5
+  airSpeed: 0.5
+  jumpForce: 15
 --- !u!1 &1945014809
 GameObject:
   m_ObjectHideFlags: 0

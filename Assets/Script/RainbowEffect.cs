@@ -3,11 +3,12 @@ using UnityEngine;
 public class RainbowEffect : MonoBehaviour
 {
     public Material mat; // 指定材质
+    public float speed = 1.0f; // 变化速率，默认为1.0
     private float time;
 
     void Update()
     {
-        time += Time.deltaTime;
+        time += Time.deltaTime * speed; // 根据速度调整时间增量
         mat.color = CalculateRainbowColor(time);
     }
 
