@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Movement_B : MonoBehaviour
 {
@@ -12,16 +13,30 @@ public class Movement_B : MonoBehaviour
     private float acceleration = 5f; // 加速度
     [SerializeField]
     private float fallThreshold = -10f; // y 轴低于该值时传送回检查点
+    [SerializeField]
+    private LayerMask groundLayer; // 地面层
+    [SerializeField]
+    private AudioClip respawnSound; // 重生音效
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
     private Vector3 currentVelocity = Vector3.zero; // 当前速度
     private Vector3 checkpoint; // 检查点位置
+    private AudioSource audioSource; // 音频源
+
+    public event Action OnJump; // 添加跳跃事件
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true; // 确保重力生效
+
+        // 获取 AudioSource 组件
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
         // 初始地面检测
         CheckGroundStatus();
@@ -94,28 +109,28 @@ public class Movement_B : MonoBehaviour
         return movement;
     }
 
-    void Jump()
+    public bool Jump()
     {
-        // 添加向上的力来实现跳跃
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        isGrounded = false; // 跳跃后不再在地面上
+        if (isGrounded)
+        {
+            // 添加向上的力来实现跳跃
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false; // 跳跃后不再在地面上
+            OnJump?.Invoke(); // 触发跳跃事件
+            return true; // 跳跃成功
+        }
+        return false; // 跳跃失败
     }
 
-    // 地面检测（需要一个地面检测脚本或在Unity编辑器中设置碰撞器）
+    // 地面检测
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) // 假设地面的标签是"Ground"
-        {
-            isGrounded = true; // 碰到地面时设置为在地面上
-        }
+        CheckGroundStatus(collision);
     }
 
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) // 假设地面的标签是"Ground"
-        {
-            isGrounded = true; // 碰到地面时设置为在地面上
-        }
+        CheckGroundStatus(collision);
     }
 
     void OnCollisionExit(Collision collision)
@@ -129,13 +144,21 @@ public class Movement_B : MonoBehaviour
     // 初始地面检测
     private void CheckGroundStatus()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f, groundLayer))
         {
             if (hit.collider.CompareTag("Ground"))
             {
                 isGrounded = true;
             }
+        }
+    }
+
+    // 碰撞检测地面状态
+    private void CheckGroundStatus(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground")) // 假设地面的标签是"Ground"
+        {
+            isGrounded = true; // 碰到地面时设置为在地面上
         }
     }
 
@@ -150,5 +173,11 @@ public class Movement_B : MonoBehaviour
     {
         transform.position = checkpoint;
         rb.velocity = Vector3.zero; // 重置速度
+
+        // 播放重生音效
+        if (respawnSound != null)
+        {
+            audioSource.PlayOneShot(respawnSound);
+        }
     }
 }
