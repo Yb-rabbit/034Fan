@@ -532,8 +532,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 5
-  airSpeed: 0.5
-  jumpForce: 15
+  airSpeed: 2
+  jumpForce: 20
+  acceleration: 3
 --- !u!1 &1945014809
 GameObject:
   m_ObjectHideFlags: 0

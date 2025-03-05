@@ -8,9 +8,12 @@ public class Movement_B : MonoBehaviour
     private float airSpeed = 1.5f; // 空中的移速
     [SerializeField]
     private float jumpForce = 10f; // 跳跃力
+    [SerializeField]
+    private float acceleration = 5f; // 加速度
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
+    private Vector3 currentVelocity = Vector3.zero; // 当前速度
 
     void Start()
     {
@@ -21,28 +24,37 @@ public class Movement_B : MonoBehaviour
         CheckGroundStatus();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // 获取移动方向
-        Vector3 movement = GetInputMovement();
-
-        // 根据是否在地面上调整速度
-        float currentSpeed = isGrounded ? groundSpeed : airSpeed;
-
-        // 规范化移动方向（避免对角线移动速度过快）
-        if (movement != Vector3.zero)
-        {
-            movement.Normalize();
-        }
-
-        // 移动物体
-        rb.MovePosition(rb.position + movement * currentSpeed * Time.fixedDeltaTime);
-
         // 跳跃逻辑
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Jump();
         }
+    }
+
+    void FixedUpdate()
+    {
+        // 获取移动方向
+        Vector3 targetVelocity = GetInputMovement();
+
+        // 根据是否在地面上调整速度
+        float targetSpeed = isGrounded ? groundSpeed : airSpeed;
+
+        // 规范化移动方向（避免对角线移动速度过快）
+        if (targetVelocity != Vector3.zero)
+        {
+            targetVelocity.Normalize();
+        }
+
+        // 计算目标速度
+        targetVelocity *= targetSpeed;
+
+        // 使用 Lerp 实现平滑加速度
+        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+
+        // 移动物体
+        rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }
 
     private Vector3 GetInputMovement()
