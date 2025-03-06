@@ -189,4 +189,10 @@ public class Movement_B : MonoBehaviour
             audioSource.PlayOneShot(respawnSound);
         }
     }
+
+    // 实现重置旋转的逻辑
+    public void ResetRotation()
+    {
+        transform.rotation = Quaternion.identity;
+    }
 }

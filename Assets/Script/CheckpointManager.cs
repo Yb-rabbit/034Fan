@@ -9,14 +9,20 @@ public class CheckpointManager : MonoBehaviour
     {
         if (other.CompareTag("Player")) // 假设玩家的标签是"Player"
         {
-            if (other.TryGetComponent(out Movement_B movement))
+            if (other.TryGetComponent(out Movement_B movementB))
             {
-                movement.SetCheckpoint(checkpointPosition);
-                Debug.Log("Player entered checkpoint.");
+                movementB.SetCheckpoint(checkpointPosition);
+                movementB.ResetRotation(); // 重置玩家的旋转属性
+                Debug.Log("Player entered checkpoint and rotation reset.");
+            }
+            else if (other.TryGetComponent(out Movement_R movementR))
+            {
+                movementR.ResetRotation(); // 重置玩家的旋转属性
+                Debug.Log("Player entered checkpoint and rotation reset.");
             }
             else
             {
-                Debug.LogWarning("Player does not have a Movement_B component.");
+                Debug.LogWarning("Player does not have a Movement_B or Movement_R component.");
             }
         }
     }
