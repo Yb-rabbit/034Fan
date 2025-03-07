@@ -91,6 +91,17 @@ public class Movement_B : MonoBehaviour
 
         // 移动物体
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
+
+        // 旋转物体朝向当前移动方向并考虑地面法线
+        if (currentVelocity != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(currentVelocity);
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.1f, groundLayer))
+            {
+                targetRotation = Quaternion.LookRotation(currentVelocity, hit.normal);
+            }
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, acceleration * Time.fixedDeltaTime));
+        }
     }
 
     private Vector3 GetInputMovement()

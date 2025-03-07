@@ -17,6 +17,7 @@ public class Movement_R : MonoBehaviour
     private float currentRotationX;
     private float rotationVelocity;
     private bool isJumping; // 是否正在跳跃
+    private bool isPreparingJump; // 是否正在准备跳跃
 
     private Rigidbody rb;
 
@@ -25,16 +26,33 @@ public class Movement_R : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         currentRotationX = 0f;
         isJumping = false;
+        isPreparingJump = false;
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update 在每一帧调用一次
     void Update()
     {
         // 检测按下R键
-        if (Input.GetKeyDown(KeyCode.R) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.R) && !isJumping && !isPreparingJump)
         {
-            isJumping = true;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isPreparingJump = true;
+            targetRotationX = 45f; // 目标旋转角度
+        }
+
+        // 平滑旋转到目标角度
+        if (isPreparingJump)
+        {
+            currentRotationX = Mathf.SmoothDamp(currentRotationX, targetRotationX, ref rotationVelocity, smoothTime);
+            transform.rotation = Quaternion.Euler(currentRotationX, 0, 0);
+
+            // 检查是否已经旋转到目标角度
+            if (Mathf.Abs(currentRotationX - targetRotationX) < 0.1f)
+            {
+                isPreparingJump = false;
+                isJumping = true;
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
         }
 
         // 旋转立方体
@@ -66,6 +84,7 @@ public class Movement_R : MonoBehaviour
         currentRotationX = 0;
         rotationVelocity = 0;
         isJumping = false;
+        isPreparingJump = false;
         transform.rotation = Quaternion.identity;
     }
 
@@ -81,7 +100,7 @@ public class Movement_R : MonoBehaviour
     // 检查是否在运动
     public bool IsMoving()
     {
-        return isJumping;
+        return isJumping || isPreparingJump;
     }
 }
 
