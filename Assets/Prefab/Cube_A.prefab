@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2410338410590837799}
   - component: {fileID: 2410338410590837796}
   - component: {fileID: 2410338410590837797}
+  - component: {fileID: 3714749007363696239}
   - component: {fileID: 2410338410590837786}
   - component: {fileID: 2410338410590837789}
   - component: {fileID: 2410338410590837784}
@@ -116,7 +117,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2410338410590837786
+--- !u!114 &3714749007363696239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,6 +125,28 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410338410590837794}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e051e486d581c4a86913c2e137bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundSpeed: 3
+  airSpeed: 1.5
+  jumpForce: 10
+  acceleration: 5
+  fallThreshold: -10
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  respawnSound: {fileID: 8300000, guid: f0090cffc7aa2cc40974d026a8bde0c0, type: 3}
+  audioMixerGroup: {fileID: 24300002, guid: 0ca6c8712c56b334e882a5803176372a, type: 2}
+--- !u!114 &2410338410590837786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410338410590837794}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa9e352bfa12a974fa88ec197821c4fa, type: 3}
   m_Name: 
