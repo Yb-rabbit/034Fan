@@ -8,37 +8,80 @@ public class Movement_R : MonoBehaviour
     private float rotationSpeed = 100f; // 旋转速度因子
 
     [SerializeField]
+    private float jumpForce = 5f; // 跳跃力
+
+    [SerializeField]
     private float smoothTime = 0.1f; // 平滑时间因子
 
-    private float targetRotationY;
-    private float currentRotationY;
+    private float targetRotationX;
+    private float currentRotationX;
     private float rotationVelocity;
+    private bool isJumping; // 是否正在跳跃
+
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        currentRotationX = 0f;
+        isJumping = false;
+    }
 
     // Update 在每一帧调用一次
     void Update()
     {
-        // 获取鼠标滚轮输入
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-
-        // 根据滚动方向设置目标旋转角度
-        if (scrollInput != 0)
+        // 检测按下R键
+        if (Input.GetKeyDown(KeyCode.R) && !isJumping)
         {
-            targetRotationY += scrollInput * rotationSpeed;
+            isJumping = true;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
-        // 平滑插值当前旋转角度到目标旋转角度
-        currentRotationY = Mathf.SmoothDamp(currentRotationY, targetRotationY, ref rotationVelocity, smoothTime);
+        // 旋转立方体
+        if (isJumping)
+        {
+            targetRotationX += rotationSpeed * Time.deltaTime;
+            currentRotationX = Mathf.SmoothDamp(currentRotationX, targetRotationX, ref rotationVelocity, smoothTime);
+            transform.rotation = Quaternion.Euler(currentRotationX, 0, 0);
+        }
+    }
 
-        // 应用旋转
-        transform.rotation = Quaternion.Euler(0, currentRotationY, 0);
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 检测是否着地
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+            targetRotationX = 0;
+            currentRotationX = 0;
+            rotationVelocity = 0;
+            transform.rotation = Quaternion.identity;
+        }
     }
 
     // 重置旋转属性
     public void ResetRotation()
     {
-        targetRotationY = 0;
-        currentRotationY = 0;
+        targetRotationX = 0;
+        currentRotationX = 0;
         rotationVelocity = 0;
+        isJumping = false;
         transform.rotation = Quaternion.identity;
     }
+
+    // 回到检查点时取消所有附加属性
+    public void ResetToCheckpoint()
+    {
+        ResetRotation();
+        rb.velocity = Vector3.zero; // 重置速度
+        rb.angularVelocity = Vector3.zero; // 重置角速度
+        transform.position = Vector3.zero; // 重置位置
+    }
+
+    // 检查是否在运动
+    public bool IsMoving()
+    {
+        return isJumping;
+    }
 }
+

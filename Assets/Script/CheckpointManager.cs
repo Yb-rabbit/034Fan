@@ -17,8 +17,8 @@ public class CheckpointManager : MonoBehaviour
             }
             else if (other.TryGetComponent(out Movement_R movementR))
             {
-                movementR.ResetRotation(); // 重置玩家的旋转属性
-                Debug.Log("Player entered checkpoint and rotation reset.");
+                movementR.ResetToCheckpoint(); // 强制重置所有属性
+                Debug.Log("Player entered checkpoint and all properties reset.");
             }
             else
             {
@@ -27,3 +27,4 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 }
+

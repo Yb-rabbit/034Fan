@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using System;
+using System.Collections;
 
 public class Movement_A : MonoBehaviour
 {
@@ -23,7 +24,9 @@ public class Movement_A : MonoBehaviour
     [SerializeField]
     private float flipDuration = 0.5f; // 翻转持续时间
     [SerializeField]
-    private float gravity = -9.81f; // 重力加速度
+    private float rollSpeed = 10f; // 滚动速度
+    [SerializeField]
+    private PhysicMaterial rollingMaterial; // 物理材质
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
@@ -34,7 +37,6 @@ public class Movement_A : MonoBehaviour
     private Quaternion targetRotation; // 目标旋转
     private float flipStartTime; // 翻转开始时间
     private Vector3 moveDirection; // 移动方向
-    private Vector3 velocity; // 速度
 
     public event Action OnJump; // 添加跳跃事件
 
@@ -42,7 +44,14 @@ public class Movement_A : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true; // 确保重力生效
-        rb.freezeRotation = true; // 禁用旋转，确保只沿方向移动
+        rb.freezeRotation = false; // 允许旋转，以便滚动
+
+        // 设置物理材质
+        Collider collider = GetComponent<Collider>();
+        if (collider != null && rollingMaterial != null)
+        {
+            collider.material = rollingMaterial;
+        }
 
         // 获取 AudioSource 组件
         audioSource = GetComponent<AudioSource>();
@@ -66,117 +75,67 @@ public class Movement_A : MonoBehaviour
 
     void Update()
     {
-        // 跳跃逻辑
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            Jump();
-        }
-
-        // 检查玩家位置
-        if (transform.position.y < fallThreshold)
-        {
-            Respawn();
-        }
-
-        // 处理翻转输入
-        HandleFlipInput();
-
-        // 平滑翻转
-        if (isFlipping)
-        {
-            float t = (Time.time - flipStartTime) / flipDuration;
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, t);
-            if (t >= 1f)
-            {
-                isFlipping = false;
-                rb.useGravity = true; // 翻转结束后重新启用重力
-            }
-        }
-
-        // 获取输入
-        float horizontal = Input.GetAxis("Horizontal"); // A/D 键
-        float vertical = Input.GetAxis("Vertical"); // W/S 键
-
-        // 计算移动方向
-        moveDirection = new Vector3(horizontal, 0, vertical).normalized;
-
-        // 应用重力
-        if (!isGrounded && !isFlipping)
-        {
-            velocity.y += gravity * Time.deltaTime;
-        }
-        else
-        {
-            velocity.y = 0; // 如果在地面上或翻转过程中，重置垂直速度
-        }
+        HandleJumpInput();
+        HandleRespawn();
+        HandleMovementInput();
     }
 
     void FixedUpdate()
     {
-        // 获取移动方向
-        Vector3 targetVelocity = moveDirection;
-
-        // 根据是否在地面上调整速度
-        float targetSpeed = isGrounded ? groundSpeed : airSpeed;
-
-        // 规范化移动方向（避免对角线移动速度过快）
-        if (targetVelocity != Vector3.zero)
-        {
-            targetVelocity.Normalize();
-        }
-
-        // 计算目标速度
-        targetVelocity *= targetSpeed;
-
-        // 使用 Lerp 实现平滑加速度
-        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
-
-        // 移动物体
-        rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime + velocity * Time.fixedDeltaTime);
+        MoveCharacter();
     }
 
-    private void HandleFlipInput()
+    private void HandleJumpInput()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !isFlipping) // 按下W键时翻转
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            StartFlip(90, 0, 0);
-        }
-        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !isFlipping) // 按下S键时翻转
-        {
-            StartFlip(-90, 0, 0);
-        }
-        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && !isFlipping) // 按下A键时翻转
-        {
-            StartFlip(0, 0, 90);
-        }
-        if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && !isFlipping) // 按下D键时翻转
-        {
-            StartFlip(0, 0, -90);
+            Jump();
         }
     }
 
-    private void StartFlip(float xAngle, float yAngle, float zAngle)
+    private void HandleRespawn()
     {
-        isFlipping = true;
-        flipStartTime = Time.time;
-        targetRotation = transform.rotation * Quaternion.Euler(xAngle, yAngle, zAngle);
-        rb.useGravity = false; // 翻转过程中禁用重力
+        if (transform.position.y < fallThreshold)
+        {
+            Respawn();
+        }
+    }
+
+    private void HandleMovementInput()
+    {
+        float horizontal = Input.GetAxis("Horizontal"); // A/D 键
+        float vertical = Input.GetAxis("Vertical"); // W/S 键
+        moveDirection = new Vector3(horizontal, 0, vertical).normalized;
+    }
+
+    private void MoveCharacter()
+    {
+        if (moveDirection != Vector3.zero)
+        {
+            float targetSpeed = isGrounded ? groundSpeed : airSpeed;
+            Vector3 targetVelocity = moveDirection * targetSpeed;
+
+            // 使用 AddForce 施加力来推动方块
+            rb.AddForce(targetVelocity * acceleration, ForceMode.Acceleration);
+
+            // 使用 AddTorque 施加旋转力矩来滚动方块
+            Vector3 torque = Vector3.Cross(Vector3.up, moveDirection) * rollSpeed;
+            rb.AddTorque(torque, ForceMode.Acceleration);
+        }
     }
 
     public bool Jump()
     {
         if (isGrounded)
         {
-            // 添加向上的力来实现跳跃
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false; // 跳跃后不再在地面上
-            OnJump?.Invoke(); // 触发跳跃事件
-            return true; // 跳跃成功
+            isGrounded = false;
+            OnJump?.Invoke();
+            return true;
         }
-        return false; // 跳跃失败
+        return false;
     }
 
-    // 地面检测
     void OnCollisionEnter(Collision collision)
     {
         CheckGroundStatus(collision);
@@ -189,9 +148,17 @@ public class Movement_A : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) // 假设地面的标签是"Ground"
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = false; // 离开地面时设置为不在地面上
+            isGrounded = false;
+        }
+    }
+
+    private void CheckGroundStatus(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
         }
     }
 
@@ -206,36 +173,25 @@ public class Movement_A : MonoBehaviour
         }
     }
 
-    private void CheckGroundStatus(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground")) // 假设地面的标签是"Ground"
-        {
-            isGrounded = true; // 碰到地面时设置为在地面上
-        }
-    }
-
-    // 设置检查点位置
-    public void SetCheckpoint(Vector3 newCheckpoint)
-    {
-        checkpoint = newCheckpoint;
-    }
-
-    // 传送玩家回到检查点
     private void Respawn()
     {
         transform.position = checkpoint;
-        rb.velocity = Vector3.zero; // 重置速度
+        rb.velocity = Vector3.zero;
 
-        // 播放重生音效
         if (respawnSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(respawnSound);
         }
     }
 
-    // 实现重置旋转的逻辑
+    public void SetCheckpoint(Vector3 newCheckpoint)
+    {
+        checkpoint = newCheckpoint;
+    }
+
     public void ResetRotation()
     {
         transform.rotation = Quaternion.identity;
     }
 }
+
