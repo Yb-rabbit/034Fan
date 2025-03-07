@@ -26,17 +26,11 @@ public class Movement_A : MonoBehaviour
     private PhysicMaterial rollingMaterial; // 物理材质
     [SerializeField]
     private Vector3 checkpoint; // 检查点位置
-    [SerializeField]
-    private float flipDuration = 0.5f; // 翻转持续时间
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
-    private Vector3 currentVelocity = Vector3.zero; // 当前速度
-    private AudioSource audioSource; // 音频源
-    private bool isFlipping = false; // 是否正在翻转
-    private Quaternion targetRotation; // 目标旋转
-    private float flipStartTime; // 翻转开始时间
     private Vector3 moveDirection; // 移动方向
+    private AudioSource audioSource; // 音频源
 
     public event Action OnJump; // 添加跳跃事件
 
@@ -70,9 +64,6 @@ public class Movement_A : MonoBehaviour
             audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
 
-        // 初始地面检测
-        CheckGroundStatus();
-
         // 初始化检查点为起始位置
         if (checkpoint == Vector3.zero)
         {
@@ -85,22 +76,6 @@ public class Movement_A : MonoBehaviour
         HandleJumpInput();
         HandleRespawn();
         HandleMovementInput();
-
-        if (isFlipping)
-        {
-            float t = (Time.time - flipStartTime) / flipDuration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, t);
-
-            if (t >= 1f)
-            {
-                isFlipping = false;
-                rb.freezeRotation = false; // 重新启用旋转
-            }
-        }
-        else
-        {
-            UpdateFlipDirection();
-        }
     }
 
     void FixedUpdate()
@@ -138,9 +113,8 @@ public class Movement_A : MonoBehaviour
             float targetSpeed = isGrounded ? groundSpeed : airSpeed;
             Vector3 targetVelocity = moveDirection * targetSpeed;
 
-            // 使用 Vector3.Lerp 平滑速度变化
-            Vector3 smoothedVelocity = Vector3.Lerp(rb.velocity, targetVelocity, acceleration * Time.fixedDeltaTime);
-            rb.velocity = smoothedVelocity;
+            // 使用 AddForce 施加力来移动方块
+            rb.AddForce(targetVelocity - rb.velocity, ForceMode.VelocityChange);
 
             // 使用 AddTorque 施加旋转力矩来滚动方块
             Vector3 torque = Vector3.Cross(Vector3.up, moveDirection) * rollSpeed;
@@ -162,12 +136,10 @@ public class Movement_A : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        CheckGroundStatus(collision);
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        CheckGroundStatus(collision);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
     }
 
     void OnCollisionExit(Collision collision)
@@ -175,37 +147,6 @@ public class Movement_A : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
-        }
-    }
-
-    private void CheckGroundStatus(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    private void CheckGroundStatus()
-    {
-        // 使用多个 Raycast 检测地面
-        Vector3[] raycastOrigins = new Vector3[]
-        {
-            transform.position + Vector3.forward * 0.5f,
-            transform.position + Vector3.back * 0.5f,
-            transform.position + Vector3.left * 0.5f,
-            transform.position + Vector3.right * 0.5f,
-            transform.position
-        };
-
-        isGrounded = false;
-        foreach (var origin in raycastOrigins)
-        {
-            if (Physics.Raycast(origin, Vector3.down, 1.1f, groundLayer))
-            {
-                isGrounded = true;
-                break;
-            }
         }
     }
 
@@ -228,27 +169,5 @@ public class Movement_A : MonoBehaviour
     public void ResetRotation()
     {
         transform.rotation = Quaternion.identity;
-    }
-
-    public void StartFlip(Quaternion newRotation)
-    {
-        if (!isFlipping)
-        {
-            isFlipping = true;
-            targetRotation = newRotation;
-            flipStartTime = Time.time;
-            rb.freezeRotation = true; // 禁用旋转
-        }
-    }
-
-    private void UpdateFlipDirection()
-    {
-        if (moveDirection != Vector3.zero)
-        {
-            Vector3 axis = Vector3.Cross(Vector3.up, moveDirection);
-            float angle = 90f; // 每次翻转90度
-            Quaternion newRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
-            StartFlip(newRotation);
-        }
     }
 }

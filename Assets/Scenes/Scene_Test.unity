@@ -1225,7 +1225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837784, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: rotationSpeed
-      value: 100
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837784, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: maxRotationAngle
@@ -1277,7 +1277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837786, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837786, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: groundLayer.m_Bits
@@ -1293,7 +1293,7 @@ PrefabInstance:
       objectReference: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
     - target: {fileID: 2410338410590837797, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Drag
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837797, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_UseGravity
@@ -1301,15 +1301,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837797, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_AngularDrag
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: jumpForce
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: rollSpeed
@@ -1320,8 +1320,16 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
+      propertyPath: respawnSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: fallThreshold
-      value: -30
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
+      propertyPath: audioMixerGroup
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: rollingMaterial
@@ -1329,7 +1337,7 @@ PrefabInstance:
       objectReference: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: groundLayer.m_Bits
-      value: 64
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 8687845256786543756, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Enabled

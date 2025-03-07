@@ -3,7 +3,10 @@ guid: 59e051e486d581c4a86913c2e137bb14
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - respawnSound: {instanceID: 0}
+  - audioMixerGroup: {instanceID: 0}
+  - rollingMaterial: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
