@@ -1277,7 +1277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837786, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837786, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: groundLayer.m_Bits
@@ -1309,7 +1309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: rollSpeed
