@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System;
 
-public class Movement_A : MonoBehaviour
+public class CubeMovement_C : MonoBehaviour
 {
     [SerializeField]
     private float groundSpeed = 3f; // 地面上的移速
@@ -70,9 +70,6 @@ public class Movement_A : MonoBehaviour
             audioSource.outputAudioMixerGroup = audioMixerGroup;
         }
 
-        // 初始地面检测
-        CheckGroundStatus();
-
         // 初始化检查点为起始位置
         if (checkpoint == Vector3.zero)
         {
@@ -139,8 +136,9 @@ public class Movement_A : MonoBehaviour
             Vector3 targetVelocity = moveDirection * targetSpeed;
 
             // 使用 Vector3.Lerp 平滑速度变化
-            Vector3 smoothedVelocity = Vector3.Lerp(rb.velocity, targetVelocity, acceleration * Time.fixedDeltaTime);
-            rb.velocity = smoothedVelocity;
+            Vector3 smoothedVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            currentVelocity = smoothedVelocity;
+            rb.MovePosition(rb.position + smoothedVelocity * Time.fixedDeltaTime);
 
             // 使用 AddTorque 施加旋转力矩来滚动方块
             Vector3 torque = Vector3.Cross(Vector3.up, moveDirection) * rollSpeed;
@@ -162,12 +160,10 @@ public class Movement_A : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        CheckGroundStatus(collision);
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        CheckGroundStatus(collision);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
     }
 
     void OnCollisionExit(Collision collision)
@@ -178,34 +174,14 @@ public class Movement_A : MonoBehaviour
         }
     }
 
-    private void CheckGroundStatus(Collision collision)
+    private void UpdateFlipDirection()
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (moveDirection != Vector3.zero)
         {
-            isGrounded = true;
-        }
-    }
-
-    private void CheckGroundStatus()
-    {
-        // 使用多个 Raycast 检测地面
-        Vector3[] raycastOrigins = new Vector3[]
-        {
-            transform.position + Vector3.forward * 0.5f,
-            transform.position + Vector3.back * 0.5f,
-            transform.position + Vector3.left * 0.5f,
-            transform.position + Vector3.right * 0.5f,
-            transform.position
-        };
-
-        isGrounded = false;
-        foreach (var origin in raycastOrigins)
-        {
-            if (Physics.Raycast(origin, Vector3.down, 1.1f, groundLayer))
-            {
-                isGrounded = true;
-                break;
-            }
+            Vector3 axis = Vector3.Cross(Vector3.up, moveDirection);
+            float angle = Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up); // 使用 SignedAngle 计算角度
+            Quaternion newRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
+            StartFlip(newRotation);
         }
     }
 
@@ -238,17 +214,6 @@ public class Movement_A : MonoBehaviour
             targetRotation = newRotation;
             flipStartTime = Time.time;
             rb.freezeRotation = true; // 禁用旋转
-        }
-    }
-
-    private void UpdateFlipDirection()
-    {
-        if (moveDirection != Vector3.zero)
-        {
-            Vector3 axis = Vector3.Cross(Vector3.up, moveDirection);
-            float angle = 90f; // 每次翻转90度
-            Quaternion newRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
-            StartFlip(newRotation);
         }
     }
 }

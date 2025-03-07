@@ -818,7 +818,7 @@ GameObject:
   - component: {fileID: 1945014810}
   - component: {fileID: 1945014814}
   - component: {fileID: 1945014815}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (Platform)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -913,7 +913,7 @@ Rigidbody:
   m_Drag: 10
   m_AngularDrag: 0.02
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
@@ -1285,11 +1285,15 @@ PrefabInstance:
       objectReference: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
     - target: {fileID: 2410338410590837797, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_Drag
-      value: 0.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2410338410590837797, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: m_UseGravity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410338410590837797, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: jumpForce
@@ -1297,7 +1301,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: rollSpeed
-      value: 3
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
+      propertyPath: flipDuration
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: fallThreshold
@@ -1307,5 +1315,9 @@ PrefabInstance:
       propertyPath: rollingMaterial
       value: 
       objectReference: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
+    - target: {fileID: 3714749007363696239, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}

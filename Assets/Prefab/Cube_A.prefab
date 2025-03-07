@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2410338410590837799}
   - component: {fileID: 2410338410590837796}
   - component: {fileID: 2410338410590837797}
+  - component: {fileID: 8687845256786543756}
   - component: {fileID: 3714749007363696239}
   - component: {fileID: 2410338410590837786}
   - component: {fileID: 2410338410590837789}
@@ -117,7 +118,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3714749007363696239
+--- !u!114 &8687845256786543756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,6 +126,32 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410338410590837794}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56fd4ca12104964abc696ef3f1c7383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundSpeed: 3
+  airSpeed: 1.5
+  jumpForce: 10
+  acceleration: 5
+  fallThreshold: -10
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  respawnSound: {fileID: 0}
+  audioMixerGroup: {fileID: 0}
+  rollSpeed: 10
+  rollingMaterial: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
+  checkpoint: {x: 0, y: 0, z: 0}
+  flipDuration: 0.5
+--- !u!114 &3714749007363696239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410338410590837794}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59e051e486d581c4a86913c2e137bb14, type: 3}
   m_Name: 
@@ -139,6 +166,10 @@ MonoBehaviour:
     m_Bits: 0
   respawnSound: {fileID: 8300000, guid: f0090cffc7aa2cc40974d026a8bde0c0, type: 3}
   audioMixerGroup: {fileID: 24300002, guid: 0ca6c8712c56b334e882a5803176372a, type: 2}
+  rollSpeed: 10
+  rollingMaterial: {fileID: 0}
+  checkpoint: {x: 0, y: 0, z: 0}
+  flipDuration: 0.5
 --- !u!114 &2410338410590837786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 300
+  jumpForce: 5
   smoothTime: 0.1
 --- !u!114 &2410338410590837787
 MonoBehaviour:
