@@ -111,4 +111,3 @@ public class Movement_R : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, targetRotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 }
-
