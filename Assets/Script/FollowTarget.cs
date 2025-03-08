@@ -1,8 +1,9 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FollowTarget : MonoBehaviour
 {
-    public Transform target; // 目标对象的Transform组件
+    public List<Transform> targets; // 目标对象的Transform组件列表
     public Vector3 offset = new Vector3(0, 5, -10); // 摄像机与目标对象的偏移量，初始值为(0, 5, -10)
     public float smoothSpeed = 0.125f; // 平滑跟随的速度
     public float rotationSpeed = 5.0f; // 旋转速度
@@ -13,13 +14,40 @@ public class FollowTarget : MonoBehaviour
     private Vector3 velocity = Vector3.zero; // 用于插值计算的速度
     private float currentYAngle = 0f; // 当前Y轴旋转角度
     private float targetDistance; // 目标距离
+    private int currentTargetIndex = 0; // 当前目标对象的索引
 
     void Start()
     {
-        if (target != null)
+        if (targets != null && targets.Count > 0)
+        {
+            SetTarget(targets[currentTargetIndex]);
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (targets == null || targets.Count == 0)
+        {
+            Debug.LogWarning("FollowTarget: No targets assigned.");
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(1)) // 右键点击
+        {
+            SwitchTarget();
+        }
+
+        HandleZoom();
+        HandleRotation();
+        HandlePosition();
+    }
+
+    private void SetTarget(Transform newTarget)
+    {
+        if (newTarget != null)
         {
             // 初始化摄像机的旋转角度，使其与目标对象的方向一致
-            Vector3 lookPos = target.position - transform.position;
+            Vector3 lookPos = newTarget.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = rotation;
 
@@ -31,17 +59,10 @@ public class FollowTarget : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    private void SwitchTarget()
     {
-        if (target == null)
-        {
-            Debug.LogWarning("FollowTarget: No target assigned.");
-            return;
-        }
-
-        HandleZoom();
-        HandleRotation();
-        HandlePosition();
+        currentTargetIndex = (currentTargetIndex + 1) % targets.Count;
+        SetTarget(targets[currentTargetIndex]);
     }
 
     private void HandleZoom()
@@ -72,10 +93,10 @@ public class FollowTarget : MonoBehaviour
     private void HandlePosition()
     {
         // 平滑跟随目标对象
-        Vector3 targetPosition = target.position + offset;
+        Vector3 targetPosition = targets[currentTargetIndex].position + offset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothSpeed);
 
         // 使摄像机始终朝向目标对象
-        transform.LookAt(target.position + Vector3.up * offset.y);
+        transform.LookAt(targets[currentTargetIndex].position + Vector3.up * offset.y);
     }
 }

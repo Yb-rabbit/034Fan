@@ -26,11 +26,17 @@ public class Movement_A : MonoBehaviour
     private PhysicMaterial rollingMaterial; // 物理材质
     [SerializeField]
     private Vector3 checkpoint; // 检查点位置
+    [SerializeField]
+    private float flipDuration = 0.5f; // 翻转持续时间
 
     private Rigidbody rb; // 刚体
     private bool isGrounded = false; // 是否在地面上
-    private Vector3 moveDirection; // 移动方向
+    private Vector3 currentVelocity = Vector3.zero; // 当前速度
     private AudioSource audioSource; // 音频源
+    private bool isFlipping = false; // 是否正在翻转
+    private Quaternion targetRotation; // 目标旋转
+    private float flipStartTime; // 翻转开始时间
+    private Vector3 moveDirection; // 移动方向
 
     public event Action OnJump; // 添加跳跃事件
 
@@ -40,6 +46,8 @@ public class Movement_A : MonoBehaviour
         rb.useGravity = true; // 确保重力生效
         rb.freezeRotation = false; // 允许旋转，以便滚动
         rb.interpolation = RigidbodyInterpolation.Interpolate; // 启用插值
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // 连续碰撞检测
+        rb.maxAngularVelocity = 7.0f; // 设置最大角速度
 
         // 设置物理材质
         Collider collider = GetComponent<Collider>();
@@ -69,6 +77,12 @@ public class Movement_A : MonoBehaviour
         {
             checkpoint = transform.position;
         }
+
+        // 设置全局重力
+        Physics.gravity = new Vector3(0, -9.81f, 0);
+        Physics.defaultContactOffset = 0.01f; // 设置默认接触偏移
+        Physics.defaultSolverIterations = 6; // 设置默认求解器迭代次数
+        Physics.defaultSolverVelocityIterations = 1; // 设置默认求解器速度迭代次数
     }
 
     void Update()
@@ -76,6 +90,22 @@ public class Movement_A : MonoBehaviour
         HandleJumpInput();
         HandleRespawn();
         HandleMovementInput();
+
+        if (isFlipping)
+        {
+            float t = (Time.time - flipStartTime) / flipDuration;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, t);
+
+            if (t >= 1f)
+            {
+                isFlipping = false;
+                rb.freezeRotation = false; // 重新启用旋转
+            }
+        }
+        else
+        {
+            UpdateFlipDirection();
+        }
     }
 
     void FixedUpdate()
@@ -104,6 +134,9 @@ public class Movement_A : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal"); // A/D 键
         float vertical = Input.GetAxis("Vertical"); // W/S 键
         moveDirection = new Vector3(horizontal, 0, vertical).normalized;
+
+        // 打印 moveDirection 的值
+        Debug.Log("Move Direction: " + moveDirection);
     }
 
     private void MoveCharacter()
@@ -113,8 +146,10 @@ public class Movement_A : MonoBehaviour
             float targetSpeed = isGrounded ? groundSpeed : airSpeed;
             Vector3 targetVelocity = moveDirection * targetSpeed;
 
-            // 使用 AddForce 施加力来移动方块
-            rb.AddForce(targetVelocity - rb.velocity, ForceMode.VelocityChange);
+            // 使用 Vector3.Lerp 平滑速度变化
+            Vector3 smoothedVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            currentVelocity = smoothedVelocity;
+            rb.MovePosition(rb.position + smoothedVelocity * Time.fixedDeltaTime);
 
             // 使用 AddTorque 施加旋转力矩来滚动方块
             Vector3 torque = Vector3.Cross(Vector3.up, moveDirection) * rollSpeed;
@@ -150,6 +185,17 @@ public class Movement_A : MonoBehaviour
         }
     }
 
+    private void UpdateFlipDirection()
+    {
+        if (moveDirection != Vector3.zero)
+        {
+            Vector3 axis = Vector3.Cross(Vector3.up, moveDirection);
+            float angle = Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up); // 使用 SignedAngle 计算角度
+            Quaternion newRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
+            StartFlip(newRotation);
+        }
+    }
+
     private void Respawn()
     {
         transform.position = checkpoint;
@@ -170,4 +216,16 @@ public class Movement_A : MonoBehaviour
     {
         transform.rotation = Quaternion.identity;
     }
+
+    public void StartFlip(Quaternion newRotation)
+    {
+        if (!isFlipping)
+        {
+            isFlipping = true;
+            targetRotation = newRotation;
+            flipStartTime = Time.time;
+            rb.freezeRotation = true; // 禁用旋转
+        }
+    }
 }
+

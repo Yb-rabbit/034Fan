@@ -5,10 +5,10 @@ using UnityEngine;
 public class Movement_R : MonoBehaviour
 {
     [SerializeField]
-    private float rotationSpeed = 100f; // 旋转速度因子
+    private float rotationSpeed = 120f; // 旋转速度因子
 
     [SerializeField]
-    private float jumpForce = 5f; // 跳跃力
+    private float jumpForce = 15f; // 跳跃力
 
     [SerializeField]
     private float smoothTime = 0.1f; // 平滑时间因子
@@ -20,6 +20,7 @@ public class Movement_R : MonoBehaviour
     private bool isPreparingJump; // 是否正在准备跳跃
 
     private Rigidbody rb;
+    private Camera mainCamera;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class Movement_R : MonoBehaviour
         currentRotationX = 0f;
         isJumping = false;
         isPreparingJump = false;
-        rb = GetComponent<Rigidbody>();
+        mainCamera = Camera.main;
     }
 
     // Update 在每一帧调用一次
@@ -38,13 +39,14 @@ public class Movement_R : MonoBehaviour
         {
             isPreparingJump = true;
             targetRotationX = 45f; // 目标旋转角度
+            CorrectOrientation(); // 矫正朝向
         }
 
         // 平滑旋转到目标角度
         if (isPreparingJump)
         {
             currentRotationX = Mathf.SmoothDamp(currentRotationX, targetRotationX, ref rotationVelocity, smoothTime);
-            transform.rotation = Quaternion.Euler(currentRotationX, 0, 0);
+            transform.rotation = Quaternion.Euler(currentRotationX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
             // 检查是否已经旋转到目标角度
             if (Mathf.Abs(currentRotationX - targetRotationX) < 0.1f)
@@ -60,7 +62,7 @@ public class Movement_R : MonoBehaviour
         {
             targetRotationX += rotationSpeed * Time.deltaTime;
             currentRotationX = Mathf.SmoothDamp(currentRotationX, targetRotationX, ref rotationVelocity, smoothTime);
-            transform.rotation = Quaternion.Euler(currentRotationX, 0, 0);
+            transform.rotation = Quaternion.Euler(currentRotationX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
     }
 
@@ -70,10 +72,7 @@ public class Movement_R : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
-            targetRotationX = 0;
-            currentRotationX = 0;
-            rotationVelocity = 0;
-            transform.rotation = Quaternion.identity;
+            ResetRotation(); // 重置旋转状态
         }
     }
 
@@ -101,6 +100,15 @@ public class Movement_R : MonoBehaviour
     public bool IsMoving()
     {
         return isJumping || isPreparingJump;
+    }
+
+    // 矫正朝向为摄像机的朝向
+    private void CorrectOrientation()
+    {
+        Vector3 cameraForward = mainCamera.transform.forward;
+        cameraForward.y = 0; // 忽略Y轴的影响
+        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, targetRotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 }
 

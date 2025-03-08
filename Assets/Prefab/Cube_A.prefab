@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2410338410590837799}
   - component: {fileID: 2410338410590837796}
   - component: {fileID: 2410338410590837797}
-  - component: {fileID: 8687845256786543756}
+  - component: {fileID: 4500454205673605975}
   - component: {fileID: 2410338410590837789}
   - component: {fileID: 2410338410590837784}
   - component: {fileID: 2410338410590837787}
@@ -116,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8687845256786543756
+--- !u!114 &4500454205673605975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,11 +135,11 @@ MonoBehaviour:
   fallThreshold: -10
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   respawnSound: {fileID: 0}
   audioMixerGroup: {fileID: 0}
   rollSpeed: 10
-  rollingMaterial: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
+  rollingMaterial: {fileID: 0}
   checkpoint: {x: 0, y: 0, z: 0}
   flipDuration: 0.5
 --- !u!114 &2410338410590837789
@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5cdf2c7eda33d240a342ff235d38f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 300
-  jumpForce: 5
+  rotationSpeed: 120
+  jumpForce: 15
   smoothTime: 0.1
 --- !u!114 &2410338410590837787
 MonoBehaviour:
