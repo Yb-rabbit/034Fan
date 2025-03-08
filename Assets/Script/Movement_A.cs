@@ -37,6 +37,10 @@ public class Movement_A : MonoBehaviour
     private Quaternion targetRotation; // 目标旋转
     private float flipStartTime; // 翻转开始时间
     private Vector3 moveDirection; // 移动方向
+    private bool isFalling = false; // 是否正在下落
+
+    private float printInterval = 1.0f; // 打印间隔时间（秒）
+    private float lastPrintTime; // 上次打印时间
 
     public event Action OnJump; // 添加跳跃事件
 
@@ -83,6 +87,8 @@ public class Movement_A : MonoBehaviour
         Physics.defaultContactOffset = 0.01f; // 设置默认接触偏移
         Physics.defaultSolverIterations = 6; // 设置默认求解器迭代次数
         Physics.defaultSolverVelocityIterations = 1; // 设置默认求解器速度迭代次数
+
+        lastPrintTime = Time.time; // 初始化上次打印时间
     }
 
     void Update()
@@ -106,11 +112,20 @@ public class Movement_A : MonoBehaviour
         {
             UpdateFlipDirection();
         }
+
+        // 检测是否开始下落
+        if (rb.velocity.y < 0 && !isFalling)
+        {
+            isFalling = true;
+        }
     }
 
     void FixedUpdate()
     {
-        MoveCharacter();
+        if (isGrounded || !isFalling)
+        {
+            MoveCharacter();
+        }
     }
 
     private void HandleJumpInput()
@@ -134,9 +149,6 @@ public class Movement_A : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal"); // A/D 键
         float vertical = Input.GetAxis("Vertical"); // W/S 键
         moveDirection = new Vector3(horizontal, 0, vertical).normalized;
-
-        // 打印 moveDirection 的值
-        Debug.Log("Move Direction: " + moveDirection);
     }
 
     private void MoveCharacter()
@@ -163,6 +175,7 @@ public class Movement_A : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+            isFalling = false; // 重置下落状态
             OnJump?.Invoke();
             return true;
         }
@@ -174,6 +187,7 @@ public class Movement_A : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            isFalling = false; // 重置下落状态
         }
     }
 
@@ -187,7 +201,7 @@ public class Movement_A : MonoBehaviour
 
     private void UpdateFlipDirection()
     {
-        if (moveDirection != Vector3.zero)
+        if (moveDirection != Vector3.zero && isGrounded)
         {
             Vector3 axis = Vector3.Cross(Vector3.up, moveDirection);
             float angle = Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up); // 使用 SignedAngle 计算角度

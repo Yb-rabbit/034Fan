@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4500454205673605975, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: airSpeed
-      value: 2.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4500454205673605975, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: jumpForce
@@ -212,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4500454205673605975, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: acceleration
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4500454205673605975, guid: d99df86f64d785b4f93cf015aa49d980, type: 3}
       propertyPath: respawnSound
@@ -611,7 +611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108147587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.69, z: -8.12}
+  m_LocalPosition: {x: 0, y: -3.69, z: -3.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -18,6 +18,8 @@ public class Movement_R : MonoBehaviour
     private float rotationVelocity;
     private bool isJumping; // 是否正在跳跃
     private bool isPreparingJump; // 是否正在准备跳跃
+    private float initialRotationX; // 初始旋转角度
+    private Quaternion initialRotation; // 初始旋转
 
     private Rigidbody rb;
     private Camera mainCamera;
@@ -39,13 +41,15 @@ public class Movement_R : MonoBehaviour
         {
             isPreparingJump = true;
             targetRotationX = 45f; // 目标旋转角度
+            initialRotationX = currentRotationX; // 记录初始旋转角度
+            initialRotation = transform.rotation; // 记录初始旋转
             CorrectOrientation(); // 矫正朝向
         }
 
         // 平滑旋转到目标角度
         if (isPreparingJump)
         {
-            currentRotationX = Mathf.SmoothDamp(currentRotationX, targetRotationX, ref rotationVelocity, smoothTime);
+            currentRotationX = Mathf.Lerp(currentRotationX, targetRotationX, Time.deltaTime / smoothTime);
             transform.rotation = Quaternion.Euler(currentRotationX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
             // 检查是否已经旋转到目标角度
@@ -61,8 +65,13 @@ public class Movement_R : MonoBehaviour
         if (isJumping)
         {
             targetRotationX += rotationSpeed * Time.deltaTime;
-            currentRotationX = Mathf.SmoothDamp(currentRotationX, targetRotationX, ref rotationVelocity, smoothTime);
-            transform.rotation = Quaternion.Euler(currentRotationX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            if (targetRotationX - initialRotationX >= 360f)
+            {
+                targetRotationX = initialRotationX + 360f; // 限制旋转角度为一圈
+                isJumping = false; // 停止旋转
+            }
+            currentRotationX = Mathf.Lerp(currentRotationX, targetRotationX, Time.deltaTime / smoothTime);
+            transform.rotation = initialRotation * Quaternion.Euler(currentRotationX, 0, 0);
         }
     }
 

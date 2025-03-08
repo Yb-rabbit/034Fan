@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -656.04, y: -417}
+  m_AnchoredPosition: {x: 0.000005126, y: -448}
   m_SizeDelta: {x: 502.0311, y: 85.7819}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &971697626
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: ab19afb0ee7d7044093354dd4cc158de, type: 3}
-  m_Color: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  m_Color: {r: 0.93333334, g: 0.9221333, b: 0.9221333, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 971697626}
   duration: 2
-  minBrightness: 0.5
+  minBrightness: 0.7
   maxBrightness: 1
   minFontSize: 38
   maxFontSize: 39
@@ -420,7 +420,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: 201}
+  m_AnchoredPosition: {x: 0, y: 265}
   m_SizeDelta: {x: 1130.9288, y: 203.0306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1290065247
@@ -494,7 +494,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1409060439}
   - component: {fileID: 1409060438}
-  - component: {fileID: 1409060440}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -572,25 +571,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1409060437}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 12, z: 10}
+  m_LocalPosition: {x: 0, y: 11, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &1409060440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1409060437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c39937461a15e9e43a0888c0bb401765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  checkpointPosition: {x: 0, y: 50, z: 0}
 --- !u!1 &1544930815
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: ab19afb0ee7d7044093354dd4cc158de, type: 3}
-  m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+  m_Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -685,8 +671,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1544930817}
   duration: 2
-  minBrightness: 0.8
-  maxBrightness: 1
+  minBrightness: 0.3
+  maxBrightness: 0.5
   minFontSize: 40
   maxFontSize: 41
   keepCurrentFontSize: 1
@@ -775,6 +761,7 @@ GameObject:
   - component: {fileID: 1930554955}
   - component: {fileID: 1930554961}
   - component: {fileID: 1930554960}
+  - component: {fileID: 1930554962}
   - component: {fileID: 1930554959}
   m_Layer: 0
   m_Name: Cube_M
@@ -874,7 +861,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &1930554960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,8 +887,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df8243f7e9fe754f8f9c42ee34c1307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialBounceForce: 130
-  maxBounceCount: 25
+  initialBounceForce: 30
+  maxBounceCount: 4
+--- !u!114 &1930554962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930554954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5cdf2c7eda33d240a342ff235d38f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 120
+  jumpForce: 5
+  smoothTime: 0.1
 --- !u!1 &2075412196
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,6 +916,7 @@ GameObject:
   - component: {fileID: 2075412198}
   - component: {fileID: 2075412197}
   - component: {fileID: 2075412200}
+  - component: {fileID: 2075412201}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1008,3 +1011,16 @@ MonoBehaviour:
   minDistance: 2
   maxDistance: 20
   zoomSpeed: 2
+--- !u!114 &2075412201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075412196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39937461a15e9e43a0888c0bb401765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointPosition: {x: 0, y: -5, z: 30}
