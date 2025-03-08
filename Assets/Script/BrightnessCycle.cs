@@ -18,6 +18,8 @@ public class BrightnessCycle : MonoBehaviour
     public int minFontSize = 20; // 最小字体大小
     public int maxFontSize = 30; // 最大字体大小
 
+    public bool keepCurrentFontSize = false; // 是否保持当前字体大小
+
     void Start()
     {
         baseColor = textComponent.color; // 获取初始颜色
@@ -29,7 +31,7 @@ public class BrightnessCycle : MonoBehaviour
         elapsedTime += Time.deltaTime;
 
         // 计算当前明度
-        float brightness = Mathf.PingPong(elapsedTime / duration, 1.0f);
+        float brightness = Mathf.Sin((elapsedTime / duration) * Mathf.PI * 2) * 0.5f + 0.5f;
 
         // 将明度映射到最小和最大明度之间
         brightness = Mathf.Lerp(minBrightness, maxBrightness, brightness);
@@ -42,13 +44,17 @@ public class BrightnessCycle : MonoBehaviour
             baseColor.a // 保持透明度不变
         );
 
-        // 计算当前字体大小
-        float fontSize = Mathf.PingPong(elapsedTime / duration, 1.0f);
+        // 如果不保持当前字体大小，则更新字体大小
+        if (!keepCurrentFontSize)
+        {
+            // 计算当前字体大小
+            float fontSize = Mathf.Sin((elapsedTime / duration) * Mathf.PI * 2) * 0.5f + 0.5f;
 
-        // 将字体大小映射到最小和最大字体大小之间
-        fontSize = Mathf.Lerp(minFontSize, maxFontSize, fontSize);
+            // 将字体大小映射到最小和最大字体大小之间
+            fontSize = Mathf.Lerp(minFontSize, maxFontSize, fontSize);
 
-        // 更新字体大小
-        textComponent.fontSize = Mathf.RoundToInt(fontSize);
+            // 更新字体大小
+            textComponent.fontSize = Mathf.RoundToInt(fontSize);
+        }
     }
 }
