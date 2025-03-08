@@ -97,6 +97,6 @@ public class FollowTarget : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothSpeed);
 
         // 使摄像机始终朝向目标对象
-        transform.LookAt(targets[currentTargetIndex].position + Vector3.up * offset.y);
+        transform.LookAt(targets[currentTargetIndex].position);
     }
 }
