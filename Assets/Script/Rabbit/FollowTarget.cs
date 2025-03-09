@@ -59,7 +59,7 @@ public class FollowTarget : MonoBehaviour
         }
     }
 
-    private void SwitchTarget()
+    public void SwitchTarget()
     {
         currentTargetIndex = (currentTargetIndex + 1) % targets.Count;
         SetTarget(targets[currentTargetIndex]);

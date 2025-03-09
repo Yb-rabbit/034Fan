@@ -1,20 +1,38 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class D_CubeController : MonoBehaviour
 {
     private float scaleOfCube;
-
     private Rigidbody rb;
     private bool isFlipping;
     private Vector3 flipAxis;
     private Vector3 pivotPoint;
     private float currentAngle;
     public float RotateSpeed = 90f;
+    public float fallThreshold = -10f; // 触发回到初始位置的 Y 值
+    private Vector3 initialPosition; // 初始位置
+    private AudioSource audioSource; // 音效组件
+    public AudioClip fallSound; // 自定义音效
+    public AudioMixerGroup mixerGroup; // 混音器轨道
 
     private void Start()
     {
         scaleOfCube = transform.localScale.x;
         rb = GetComponent<Rigidbody>();
+        initialPosition = transform.position; // 存储初始位置
+        audioSource = GetComponent<AudioSource>(); // 获取音效组件
+
+        // 确保 audioSource 和 mixerGroup 不为空
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        if (mixerGroup != null)
+        {
+            audioSource.outputAudioMixerGroup = mixerGroup; // 设置混音器轨道
+        }
     }
 
     private void Update()
@@ -27,6 +45,19 @@ public class D_CubeController : MonoBehaviour
         if (isFlipping)
         {
             ExecuteFlip();
+        }
+
+        // 检测立方体的 Y 值
+        if (transform.position.y <= fallThreshold)
+        {
+            // 回到初始位置
+            transform.position = initialPosition;
+
+            // 播放音效
+            if (audioSource != null && fallSound != null)
+            {
+                audioSource.PlayOneShot(fallSound);
+            }
         }
     }
 
