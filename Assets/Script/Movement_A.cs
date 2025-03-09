@@ -39,56 +39,15 @@ public class Movement_A : MonoBehaviour
     private Vector3 moveDirection; // 移动方向
     private bool isFalling = false; // 是否正在下落
 
-    private float printInterval = 1.0f; // 打印间隔时间（秒）
-    private float lastPrintTime; // 上次打印时间
-
     public event Action OnJump; // 添加跳跃事件
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = true; // 确保重力生效
-        rb.freezeRotation = false; // 允许旋转，以便滚动
-        rb.interpolation = RigidbodyInterpolation.Interpolate; // 启用插值
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // 连续碰撞检测
-        rb.maxAngularVelocity = 7.0f; // 设置最大角速度
-
-        // 设置物理材质
-        Collider collider = GetComponent<Collider>();
-        if (collider != null && rollingMaterial != null)
-        {
-            collider.material = rollingMaterial;
-        }
-
-        // 设置刚体阻尼
-        rb.drag = 0.5f; // 线性阻尼
-        rb.angularDrag = 0.5f; // 角阻尼
-
-        // 获取 AudioSource 组件
-        if (!TryGetComponent(out audioSource))
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-
-        // 设置音频混音器组
-        if (audioMixerGroup != null)
-        {
-            audioSource.outputAudioMixerGroup = audioMixerGroup;
-        }
-
-        // 初始化检查点为起始位置
-        if (checkpoint == Vector3.zero)
-        {
-            checkpoint = transform.position;
-        }
-
-        // 设置全局重力
-        Physics.gravity = new Vector3(0, -9.81f, 0);
-        Physics.defaultContactOffset = 0.01f; // 设置默认接触偏移
-        Physics.defaultSolverIterations = 6; // 设置默认求解器迭代次数
-        Physics.defaultSolverVelocityIterations = 1; // 设置默认求解器速度迭代次数
-
-        lastPrintTime = Time.time; // 初始化上次打印时间
+        InitializeRigidbody();
+        InitializeCollider();
+        InitializeAudioSource();
+        InitializeCheckpoint();
+        InitializePhysicsSettings();
     }
 
     void Update()
@@ -99,25 +58,14 @@ public class Movement_A : MonoBehaviour
 
         if (isFlipping)
         {
-            float t = (Time.time - flipStartTime) / flipDuration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, t);
-
-            if (t >= 1f)
-            {
-                isFlipping = false;
-                rb.freezeRotation = false; // 重新启用旋转
-            }
+            UpdateFlip();
         }
         else
         {
             UpdateFlipDirection();
         }
 
-        // 检测是否开始下落
-        if (rb.velocity.y < 0 && !isFalling)
-        {
-            isFalling = true;
-        }
+        CheckFalling();
     }
 
     void FixedUpdate()
@@ -126,6 +74,56 @@ public class Movement_A : MonoBehaviour
         {
             MoveCharacter();
         }
+    }
+
+    private void InitializeRigidbody()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = true;
+        rb.freezeRotation = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.maxAngularVelocity = 7.0f;
+        rb.drag = 0.5f;
+        rb.angularDrag = 0.5f;
+    }
+
+    private void InitializeCollider()
+    {
+        Collider collider = GetComponent<Collider>();
+        if (collider != null && rollingMaterial != null)
+        {
+            collider.material = rollingMaterial;
+        }
+    }
+
+    private void InitializeAudioSource()
+    {
+        if (!TryGetComponent(out audioSource))
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        if (audioMixerGroup != null)
+        {
+            audioSource.outputAudioMixerGroup = audioMixerGroup;
+        }
+    }
+
+    private void InitializeCheckpoint()
+    {
+        if (checkpoint == Vector3.zero)
+        {
+            checkpoint = transform.position;
+        }
+    }
+
+    private void InitializePhysicsSettings()
+    {
+        Physics.gravity = new Vector3(0, -9.81f, 0);
+        Physics.defaultContactOffset = 0.01f;
+        Physics.defaultSolverIterations = 6;
+        Physics.defaultSolverVelocityIterations = 1;
     }
 
     private void HandleJumpInput()
@@ -146,8 +144,8 @@ public class Movement_A : MonoBehaviour
 
     private void HandleMovementInput()
     {
-        float horizontal = Input.GetAxis("Horizontal"); // A/D 键
-        float vertical = Input.GetAxis("Vertical"); // W/S 键
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
         moveDirection = new Vector3(horizontal, 0, vertical).normalized;
     }
 
@@ -157,13 +155,9 @@ public class Movement_A : MonoBehaviour
         {
             float targetSpeed = isGrounded ? groundSpeed : airSpeed;
             Vector3 targetVelocity = moveDirection * targetSpeed;
-
-            // 使用 Vector3.Lerp 平滑速度变化
             Vector3 smoothedVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
             currentVelocity = smoothedVelocity;
             rb.MovePosition(rb.position + smoothedVelocity * Time.fixedDeltaTime);
-
-            // 使用 AddTorque 施加旋转力矩来滚动方块
             Vector3 torque = Vector3.Cross(Vector3.up, moveDirection) * rollSpeed;
             rb.AddTorque(torque, ForceMode.Acceleration);
         }
@@ -175,7 +169,7 @@ public class Movement_A : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
-            isFalling = false; // 重置下落状态
+            isFalling = false;
             OnJump?.Invoke();
             return true;
         }
@@ -187,7 +181,7 @@ public class Movement_A : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            isFalling = false; // 重置下落状态
+            isFalling = false;
         }
     }
 
@@ -204,9 +198,29 @@ public class Movement_A : MonoBehaviour
         if (moveDirection != Vector3.zero && isGrounded)
         {
             Vector3 axis = Vector3.Cross(Vector3.up, moveDirection);
-            float angle = Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up); // 使用 SignedAngle 计算角度
+            float angle = Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up);
             Quaternion newRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
             StartFlip(newRotation);
+        }
+    }
+
+    private void UpdateFlip()
+    {
+        float t = (Time.time - flipStartTime) / flipDuration;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, t);
+
+        if (t >= 1f)
+        {
+            isFlipping = false;
+            rb.freezeRotation = false;
+        }
+    }
+
+    private void CheckFalling()
+    {
+        if (rb.velocity.y < 0 && !isFalling)
+        {
+            isFalling = true;
         }
     }
 
@@ -238,7 +252,7 @@ public class Movement_A : MonoBehaviour
             isFlipping = true;
             targetRotation = newRotation;
             flipStartTime = Time.time;
-            rb.freezeRotation = true; // 禁用旋转
+            rb.freezeRotation = true;
         }
     }
 }

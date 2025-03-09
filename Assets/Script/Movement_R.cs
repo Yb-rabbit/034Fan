@@ -15,7 +15,6 @@ public class Movement_R : MonoBehaviour
 
     private float targetRotationX;
     private float currentRotationX;
-    private float rotationVelocity;
     private bool isJumping; // 是否正在跳跃
     private bool isPreparingJump; // 是否正在准备跳跃
     private float initialRotationX; // 初始旋转角度
@@ -86,7 +85,6 @@ public class Movement_R : MonoBehaviour
     {
         targetRotationX = 0;
         currentRotationX = 0;
-        rotationVelocity = 0;
         isJumping = false;
         isPreparingJump = false;
         transform.rotation = Quaternion.identity;
