@@ -39,11 +39,7 @@ public class Movement_R : MonoBehaviour
         // 检测按下R键
         if (Input.GetKeyDown(KeyCode.R) && !isJumping && !isPreparingJump)
         {
-            isPreparingJump = true;
-            targetRotationX = 45f; // 目标旋转角度
-            initialRotationX = currentRotationX; // 记录初始旋转角度
-            initialRotation = transform.rotation; // 记录初始旋转
-            CorrectOrientation(); // 矫正朝向
+            PrepareJump();
         }
 
         // 平滑旋转到目标角度
@@ -118,5 +114,18 @@ public class Movement_R : MonoBehaviour
         cameraForward.y = 0; // 忽略Y轴的影响
         Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, targetRotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }
+
+    // 公共方法，用于外部调用以触发起跳功能
+    public void PrepareJump()
+    {
+        if (!isJumping && !isPreparingJump)
+        {
+            isPreparingJump = true;
+            targetRotationX = 45f; // 目标旋转角度
+            initialRotationX = currentRotationX; // 记录初始旋转角度
+            initialRotation = transform.rotation; // 记录初始旋转
+            CorrectOrientation(); // 矫正朝向
+        }
     }
 }
