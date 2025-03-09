@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 90
+  fallThreshold: -10
+  fallSound: {fileID: 8300000, guid: 95a7585ec8464fd4a8db88419646d50e, type: 3}
+  mixerGroup: {fileID: 24300002, guid: 0ca6c8712c56b334e882a5803176372a, type: 2}
