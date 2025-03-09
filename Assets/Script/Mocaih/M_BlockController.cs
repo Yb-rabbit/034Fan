@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BlockController : MonoBehaviour
+public class M_BlockController : MonoBehaviour
 {
     public float fallSpeed = 1f; // 下落速度，单位/秒
 

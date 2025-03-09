@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CubeController : MonoBehaviour
+public class D_CubeController : MonoBehaviour
 {
     private float scaleOfCube;
 

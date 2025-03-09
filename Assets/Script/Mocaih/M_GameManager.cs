@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class M_GameManager : MonoBehaviour
 {
     public GameObject[] blockPrefabs; // 存储所有方块预制体的数组
     public Transform spawnPoint; // 生成点位置
