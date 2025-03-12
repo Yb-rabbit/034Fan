@@ -16,6 +16,7 @@ public class Button_Scene_Change : MonoBehaviour
     public float scaleChange = 0.2f; // 鼠标靠近时的缩放变化
     public float fadeTime = 2f; // 屏幕变黑的时间
     public Image blackScreen; // 全屏黑色图像
+    public Vector3 rotationAxis = Vector3.up; // 自定义旋转轴
 
     private float targetScale = 1f; // 目标缩放值
     private float currentScale = 1f; // 当前缩放值
@@ -49,10 +50,10 @@ public class Button_Scene_Change : MonoBehaviour
 
     void Update()
     {
-        // 无操作时沿Y轴旋转
+        // 无操作时沿自定义轴旋转
         if (!isRotating)
         {
-            transform.Rotate(new Vector3(0, randomRotation, 0) * rotationSpeed * Time.deltaTime);
+            transform.Rotate(rotationAxis * randomRotation * rotationSpeed * Time.deltaTime);
         }
 
         // 平滑缩放按钮
