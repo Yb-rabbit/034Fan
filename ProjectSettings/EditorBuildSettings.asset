@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tests/TestForNewCube.unity
     guid: 85215bd5e73071a46a40434ceeea61c7
+  - enabled: 1
+    path: Assets/Scenes/Scene_SelectCube.unity
+    guid: 225e0d5993ecc3c47a06b30027a62e53
   m_configObjects: {}

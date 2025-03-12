@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: {fileID: 102900000, guid: 85215bd5e73071a46a40434ceeea61c7, type: 3}
+  targetScene: {fileID: 102900000, guid: 225e0d5993ecc3c47a06b30027a62e53, type: 3}
   rotationSpeed: 8
   scaleChange: 0.2
   fadeTime: 1.5
@@ -2132,7 +2132,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 89eb8bc711e500c488f45dcc2ccfafdd, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7b41c86e768d24d4bbdc543d5591f110, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 231cb5c402b26ed4bb8f547ad8f03b87, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
