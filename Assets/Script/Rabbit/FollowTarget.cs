@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class FollowTarget : MonoBehaviour
 {
-    public List<Transform> targets; // 目标对象的Transform组件列表
+    public List<Transform> targets = new(); // 目标对象的Transform组件列表
     public Vector3 offset = new Vector3(0, 5, -10); // 摄像机与目标对象的偏移量，初始值为(0, 5, -10)
     public float smoothSpeed = 0.125f; // 平滑跟随的速度
     public float rotationSpeed = 5.0f; // 旋转速度
@@ -96,7 +96,23 @@ public class FollowTarget : MonoBehaviour
         Vector3 targetPosition = targets[currentTargetIndex].position + offset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothSpeed);
 
-        // 使摄像机始终朝向目标对象
-        transform.LookAt(targets[currentTargetIndex].position);
+        // 计算目标对象及其子对象的包围盒中心
+        Vector3 lookAtPosition = CalculateBoundsCenter(targets[currentTargetIndex]);
+
+        // 使摄像机始终朝向目标对象及其子对象的包围盒中心
+        transform.LookAt(lookAtPosition);
+    }
+
+    private Vector3 CalculateBoundsCenter(Transform target)
+    {
+        Bounds bounds = new Bounds(target.position, Vector3.zero);
+        Renderer[] renderers = target.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer renderer in renderers)
+        {
+            bounds.Encapsulate(renderer.bounds);
+        }
+
+        return bounds.center;
     }
 }
