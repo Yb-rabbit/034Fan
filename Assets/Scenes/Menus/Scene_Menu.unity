@@ -1736,7 +1736,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1056348814}
   - component: {fileID: 1056348813}
-  - component: {fileID: 1056348812}
   m_Layer: 0
   m_Name: Camera2
   m_TagString: Untagged
@@ -1744,14 +1743,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1056348812
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056348811}
-  m_Enabled: 1
 --- !u!20 &1056348813
 Camera:
   m_ObjectHideFlags: 0
@@ -2217,7 +2208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d08de2cfa91e24a9d931520d5eead6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 12
+  rotationSpeed: 10
   scaleChange: 0.2
   fadeTime: 2
   blackScreen: {fileID: 85675128}
@@ -2841,9 +2832,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetScene: {fileID: 102900000, guid: 225e0d5993ecc3c47a06b30027a62e53, type: 3}
-  rotationSpeed: 8
+  rotationSpeed: 10
   scaleChange: 0.2
-  fadeTime: 1.5
+  fadeTime: 2
   blackScreen: {fileID: 85675128}
   rotationAxis: {x: 0, y: 0, z: 0}
 --- !u!114 &1405962397
@@ -3887,6 +3878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resetYThreshold: -220
+  resetDuration: 1
 --- !u!114 &1930554961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4353,6 +4345,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Black_Img
       objectReference: {fileID: 0}
+    - target: {fileID: 997738278751569344, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4862947705965580254, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4384,6 +4380,14 @@ PrefabInstance:
     - target: {fileID: 4862947705965580254, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1600
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862947705965580254, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862947705965580254, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4862947705965580254, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
       propertyPath: m_LocalPosition.x
