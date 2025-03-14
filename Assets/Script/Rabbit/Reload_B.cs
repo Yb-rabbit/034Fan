@@ -8,8 +8,10 @@ public class Reload_B : MonoBehaviour
     private Quaternion initialRotation;
     private Vector3 initialScale;
     public float resetYThreshold = -10f; // 设置一个阈值，当对象的y值低于这个值时重置位置
+    public float resetDuration = 1f; // 重置过程的持续时间
 
-    // Start is called before the first frame update
+    private bool isResetting = false; // 标记是否正在重置
+
     void Start()
     {
         // 记录初始位置、旋转和缩放
@@ -18,14 +20,43 @@ public class Reload_B : MonoBehaviour
         initialScale = transform.localScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < resetYThreshold)
+        if (!isResetting && transform.position.y < resetYThreshold)
         {
-            // 重置位置、旋转和缩放
-            transform.SetPositionAndRotation(initialPosition, initialRotation);
-            transform.localScale = initialScale;
+            StartCoroutine(ResetPosition());
         }
+    }
+
+    private IEnumerator ResetPosition()
+    {
+        isResetting = true;
+
+        // 优化读取位置和旋转
+        transform.GetPositionAndRotation(out Vector3 startPosition, out Quaternion startRotation);
+        Vector3 startScale = transform.localScale;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < resetDuration)
+        {
+            float t = elapsedTime / resetDuration;
+
+            // 平滑插值位置、旋转和缩放
+            transform.SetPositionAndRotation(
+                Vector3.Lerp(startPosition, initialPosition, t),
+                Quaternion.Slerp(startRotation, initialRotation, t)
+            );
+            transform.localScale = Vector3.Lerp(startScale, initialScale, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // 确保最终位置、旋转和缩放完全重置
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
+        transform.localScale = initialScale;
+
+        isResetting = false;
     }
 }
