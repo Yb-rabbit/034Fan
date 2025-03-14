@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: {fileID: 102900000, guid: 7ab106905a59a1d47af61a74d5eff8f8, type: 3}
+  targetSceneIndex: 2
   rotationSpeed: 5
   scaleChange: 0.2
   fadeTime: 2
@@ -1326,7 +1326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: {fileID: 102900000, guid: 44127ee2a4268a64f88491370432df50, type: 3}
+  targetSceneIndex: 0
   rotationSpeed: 5
   scaleChange: 0.2
   fadeTime: 2

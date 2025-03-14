@@ -2168,8 +2168,8 @@ GameObject:
   - component: {fileID: 1281213795}
   - component: {fileID: 1281213794}
   - component: {fileID: 1281213793}
-  - component: {fileID: 1281213792}
   - component: {fileID: 1281213796}
+  - component: {fileID: 1281213797}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -2196,22 +2196,6 @@ RectTransform:
   m_AnchoredPosition: {x: 679, y: -114}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1281213792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281213790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8d08de2cfa91e24a9d931520d5eead6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 10
-  scaleChange: 0.2
-  fadeTime: 2
-  blackScreen: {fileID: 85675128}
 --- !u!114 &1281213793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,7 +2240,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1281213792}
+      - m_Target: {fileID: 1281213797}
         m_TargetAssemblyTypeName: Button_ExitGame, Assembly-CSharp
         m_MethodName: OnPointerClick
         m_Mode: 1
@@ -2324,6 +2308,22 @@ MonoBehaviour:
   "\u653E\u7F29\u8303\u56F4": 0.02
   "\u653E\u7F29\u9891\u7387": 2
   "\u653E\u7F29\u901F\u5EA6": 2
+--- !u!114 &1281213797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281213790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d08de2cfa91e24a9d931520d5eead6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 10
+  scaleChange: 0.2
+  fadeTime: 2
+  blackScreen: {fileID: 85675128}
 --- !u!1 &1282213374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,8 +2791,8 @@ GameObject:
   - component: {fileID: 1405962399}
   - component: {fileID: 1405962398}
   - component: {fileID: 1405962397}
-  - component: {fileID: 1405962396}
   - component: {fileID: 1405962400}
+  - component: {fileID: 1405962401}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -2819,24 +2819,6 @@ RectTransform:
   m_AnchoredPosition: {x: -593, y: -234}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1405962396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405962394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetScene: {fileID: 102900000, guid: 225e0d5993ecc3c47a06b30027a62e53, type: 3}
-  rotationSpeed: 10
-  scaleChange: 0.2
-  fadeTime: 2
-  blackScreen: {fileID: 85675128}
-  rotationAxis: {x: 0, y: 0, z: 0}
 --- !u!114 &1405962397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2881,7 +2863,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1405962396}
+      - m_Target: {fileID: 1405962401}
         m_TargetAssemblyTypeName: Button_Scene_Change, Assembly-CSharp
         m_MethodName: OnPointerClick
         m_Mode: 1
@@ -2949,6 +2931,24 @@ MonoBehaviour:
   "\u653E\u7F29\u8303\u56F4": 0.2
   "\u653E\u7F29\u9891\u7387": 4
   "\u653E\u7F29\u901F\u5EA6": 2
+--- !u!114 &1405962401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405962394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneIndex: 1
+  rotationSpeed: 10
+  scaleChange: 0.2
+  fadeTime: 2
+  blackScreen: {fileID: 85675128}
+  rotationAxis: {x: 0, y: 0, z: 0}
 --- !u!1 &1409060437
 GameObject:
   m_ObjectHideFlags: 0

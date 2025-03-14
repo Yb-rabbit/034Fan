@@ -41,7 +41,7 @@ public class Button_ExitGame : MonoBehaviour
         // 无操作时沿Z轴旋转
         if (!isRotating)
         {
-            transform.Rotate(new Vector3(0, 0, randomRotation) * rotationSpeed * Time.deltaTime);
+            transform.Rotate(new Vector3(0, 0, randomRotation) * (rotationSpeed * Time.deltaTime));
         }
 
         // 平滑缩放按钮

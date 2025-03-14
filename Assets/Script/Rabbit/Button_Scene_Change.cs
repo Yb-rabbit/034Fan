@@ -9,9 +9,7 @@ using UnityEditor;
 
 public class Button_Scene_Change : MonoBehaviour
 {
-#if UNITY_EDITOR
-    public SceneAsset targetScene; // 目标场景
-#endif
+    public int targetSceneIndex; // 目标场景的序列号
     public float rotationSpeed = 10f; // 旋转速度
     public float scaleChange = 0.2f; // 鼠标靠近时的缩放变化
     public float fadeTime = 2f; // 屏幕变黑的时间
@@ -24,7 +22,6 @@ public class Button_Scene_Change : MonoBehaviour
     private Image buttonImage; // 按钮的Image组件
     private RectTransform rectTransform; // 按钮的RectTransform组件
     private float randomRotation; // 随机旋转角度
-    private string targetSceneName; // 目标场景名称
     private bool isRotating = false; // 是否正在旋转
 
     void Start()
@@ -32,13 +29,6 @@ public class Button_Scene_Change : MonoBehaviour
         buttonImage = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
         randomRotation = Random.Range(-10f, 10f); // 初始化随机旋转角度
-
-#if UNITY_EDITOR
-        if (targetScene != null)
-        {
-            targetSceneName = targetScene.name;
-        }
-#endif
 
         // 确保黑色图像初始状态是透明的并禁用
         if (blackScreen != null)
@@ -50,10 +40,10 @@ public class Button_Scene_Change : MonoBehaviour
 
     void Update()
     {
-        // 无操作时沿自定义轴旋转
+        // 无操作时沿Z轴旋转
         if (!isRotating)
         {
-            transform.Rotate(rotationAxis * randomRotation * rotationSpeed * Time.deltaTime);
+            transform.Rotate(new Vector3(0, 0, randomRotation) * (rotationSpeed * Time.deltaTime));
         }
 
         // 平滑缩放按钮
@@ -116,11 +106,7 @@ public class Button_Scene_Change : MonoBehaviour
         }
 
         // 切换到指定场景
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+        SceneManager.LoadScene(targetSceneIndex);
 
         // 渐变淡出黑屏
         elapsedTime = 0f;
@@ -139,15 +125,6 @@ public class Button_Scene_Change : MonoBehaviour
         {
             blackScreen.gameObject.SetActive(false);
         }
-    }
-
-    // 外部按钮事件设置目标场景
-    public void SetTargetScene(SceneAsset scene)
-    {
-#if UNITY_EDITOR
-        targetScene = scene;
-        targetSceneName = scene.name;
-#endif
     }
 
     // 旋转到指定角度的协程
