@@ -56,8 +56,39 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1582e0970d7d1dc4c8678d07b70f1d33, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3661507730395518529, guid: 65bd5856cf349db4a91db1e5915aa13a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1109906606390039714, guid: 65bd5856cf349db4a91db1e5915aa13a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3171633577789543376}
   m_SourcePrefab: {fileID: 100100000, guid: 65bd5856cf349db4a91db1e5915aa13a, type: 3}
+--- !u!1 &8478346845165514350 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1109906606390039714, guid: 65bd5856cf349db4a91db1e5915aa13a, type: 3}
+  m_PrefabInstance: {fileID: 8849025318457457356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3171633577789543376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8478346845165514350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2668159b6eda434cb5e428448205ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundSpeed: 3
+  airSpeed: 1.5
+  jumpForce: 10
+  acceleration: 5
+  fallThreshold: -10
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  respawnSound: {fileID: 0}
+  audioMixerGroup: {fileID: 0}
