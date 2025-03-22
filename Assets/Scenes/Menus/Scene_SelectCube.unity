@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: 
+  targetScene: Scene_Lv0
   rotationSpeed: 5
   scaleChange: 0.2
   fadeTime: 2
