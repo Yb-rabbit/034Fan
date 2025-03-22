@@ -64,3 +64,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridManager: {fileID: 691947520588120100}
   objectPrefab: {fileID: 616974803272941912, guid: 7d6236296266e5a4c880ee54b7794988, type: 3}
+  maxObjectCount: 30
