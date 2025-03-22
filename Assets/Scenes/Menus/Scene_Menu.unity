@@ -2193,7 +2193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.296}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 679, y: -114}
+  m_AnchoredPosition: {x: 424, y: -191}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1281213793
@@ -2217,8 +2217,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.94811535, b: 0.9198113, a: 0.4509804}
-    m_HighlightedColor: {r: 0.9103774, g: 0.5410733, b: 0.5410733, a: 0.87058824}
+    m_NormalColor: {r: 0.9811321, g: 0.38187057, b: 0.33784264, a: 0.4509804}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 0.87058824}
     m_PressedColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
     m_SelectedColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
     m_DisabledColor: {r: 0.4009434, g: 0.19101548, b: 0.19101548, a: 0.5019608}
@@ -2360,8 +2360,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.296}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -732, y: 25}
-  m_SizeDelta: {x: 60, y: 60}
+  m_AnchoredPosition: {x: -720, y: -10}
+  m_SizeDelta: {x: 114, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282213376
 MonoBehaviour:
@@ -2816,7 +2816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.296}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -593, y: -234}
+  m_AnchoredPosition: {x: -373, y: -182}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1405962397
@@ -2943,7 +2943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneIndex: 1
+  targetScene: Scene_SelectCube
   rotationSpeed: 10
   scaleChange: 0.2
   fadeTime: 2

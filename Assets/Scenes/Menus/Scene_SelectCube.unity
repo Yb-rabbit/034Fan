@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneIndex: 2
+  targetScene: 
   rotationSpeed: 5
   scaleChange: 0.2
   fadeTime: 2
@@ -1321,11 +1321,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.929, b: 0.929, a: 0.54901963}
-    m_HighlightedColor: {r: 1, g: 0.8018868, b: 0.8018868, a: 0.81960785}
-    m_PressedColor: {r: 0.78431374, g: 0.6172549, b: 0.6172549, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.8214706, b: 0.8214706, a: 0.8666667}
-    m_DisabledColor: {r: 0.78431374, g: 0.6784314, b: 0.6784314, a: 0.5019608}
+    m_NormalColor: {r: 0.9811321, g: 0.38187057, b: 0.33784264, a: 0.4509804}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 0.87058824}
+    m_PressedColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
+    m_SelectedColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+    m_DisabledColor: {r: 0.4009434, g: 0.19101548, b: 0.19101548, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1345,8 +1345,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1640280359}
-        m_TargetAssemblyTypeName: Button_Scene_Change, Assembly-CSharp
-        m_MethodName: OnPointerClick
+        m_TargetAssemblyTypeName: Button_ExitGame, Assembly-CSharp
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneIndex: 0
+  targetScene: Scene_Menu
   rotationSpeed: 5
   scaleChange: 0.2
   fadeTime: 2

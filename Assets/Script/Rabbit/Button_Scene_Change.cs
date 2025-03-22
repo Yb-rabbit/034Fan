@@ -9,7 +9,7 @@ using UnityEditor;
 
 public class Button_Scene_Change : MonoBehaviour
 {
-    public int targetSceneIndex; // 目标场景的序列号
+    public string targetScene; // 目标场景的序列号
     public float rotationSpeed = 10f; // 旋转速度
     public float scaleChange = 0.2f; // 鼠标靠近时的缩放变化
     public float fadeTime = 2f; // 屏幕变黑的时间
@@ -106,7 +106,7 @@ public class Button_Scene_Change : MonoBehaviour
         }
 
         // 切换到指定场景
-        SceneManager.LoadScene(targetSceneIndex);
+        SceneManager.LoadScene(targetScene);
 
         // 渐变淡出黑屏
         elapsedTime = 0f;
