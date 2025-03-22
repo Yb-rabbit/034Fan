@@ -1082,7 +1082,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2098260873}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2098260875}
+        m_TargetAssemblyTypeName: Button_Scene_Change, Assembly-CSharp
+        m_MethodName: OnPointerClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2098260873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,12 +1142,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2098260870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b2ee5aef9827647b67ecae447a67ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 348e1d7b1ea8e464180f99fbc2e10b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeSceneButton: {fileID: 2098260872}
-  targetScene: {fileID: 0}
-  targetSceneName: 
+  targetSceneIndex: 4
+  rotationSpeed: 10
+  scaleChange: 0.2
+  fadeTime: 2
+  blackScreen: {fileID: 4804902228896156010, guid: 03e822f038ec01e44b1546b1c21123ef, type: 3}
+  rotationAxis: {x: 0, y: 1, z: 0}
 --- !u!1001 &2132392255
 PrefabInstance:
   m_ObjectHideFlags: 0
