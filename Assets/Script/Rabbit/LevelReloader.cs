@@ -4,10 +4,13 @@ using System.Collections.Generic;
 
 public class LevelReloader : MonoBehaviour
 {
-    public List<string> levelPrefabPaths; // 所有关卡预制体的路径列表
+    public List<string> levelPrefabPaths = new List<string>
+    {
+        "Levels/Tutorial"
+    };
     private GameObject currentLevelInstance; // 当前激活的关卡物体实例
     private string currentLevelPrefabPath; // 当前关卡预制体的路径
-    private float reloadCooldown = 1.0f; // 重新加载的冷却时间
+    public float reloadCooldown = 1.0f; // 重新加载的冷却时间
     private float lastReloadTime = 0.0f; // 上次重新加载的时间
 
     private void Start()
@@ -31,6 +34,12 @@ public class LevelReloader : MonoBehaviour
             ReloadLevel();
             lastReloadTime = Time.time; // 更新上次重新加载的时间
         }
+
+        // 检测当前关卡是否完成
+        if (IsCurrentLevelCompleted())
+        {
+            LoadNextLevel();
+        }
     }
 
     // 加载关卡物体
@@ -53,6 +62,19 @@ public class LevelReloader : MonoBehaviour
         }
     }
 
+    // 根据索引加载关卡物体
+    private void LoadLevelByIndex(int index)
+    {
+        if (index >= 0 && index < levelPrefabPaths.Count)
+        {
+            LoadLevel(levelPrefabPaths[index]);
+        }
+        else
+        {
+            Debug.LogError("Invalid level index.");
+        }
+    }
+
     // 重新加载关卡物体
     private void ReloadLevel()
     {
@@ -64,5 +86,22 @@ public class LevelReloader : MonoBehaviour
         {
             Debug.LogError("No active level to reload.");
         }
+    }
+
+    // 检查当前关卡是否完成
+    private bool IsCurrentLevelCompleted()
+    {
+        // 这里可以根据具体的游戏逻辑来判断关卡是否完成
+        // 例如，检查某个条件是否满足，或者某个对象是否被销毁
+        // 这里假设关卡完成的条件是当前关卡实例被禁用
+        return currentLevelInstance != null && !currentLevelInstance.activeSelf;
+    }
+
+    // 加载下一个关卡
+    private void LoadNextLevel()
+    {
+        int currentIndex = levelPrefabPaths.IndexOf(currentLevelPrefabPath);
+        int nextIndex = (currentIndex + 1) % levelPrefabPaths.Count;
+        LoadLevelByIndex(nextIndex);
     }
 }
