@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6725754750383461284}
   - component: {fileID: 3803979480782300344}
   - component: {fileID: 130333909775261265}
-  - component: {fileID: 6919586813709160424}
   m_Layer: 0
   m_Name: Cube_E
   m_TagString: Untagged
@@ -103,6 +102,10 @@ MonoBehaviour:
   dashSpeed: 15
   dashDuration: 0.5
   dashCooldown: 1
+  resetYValue: -20
+  resetPosition: {x: 0, y: 1, z: 0}
+  resetSound: {fileID: 8300000, guid: f892735b6969bc34e9b175df7cc88451, type: 3}
+  audioMixerGroup: {fileID: 24300002, guid: 0ca6c8712c56b334e882a5803176372a, type: 2}
 --- !u!65 &3803979480782300344
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -110,7 +113,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5719542376968921270}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 116a3a106f455db4e8099a762dbe6d16, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -151,17 +154,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6919586813709160424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5719542376968921270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed8be88d6316d3e48a64eb79b7486e3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resetYThreshold: -10
-  resetDuration: 1
