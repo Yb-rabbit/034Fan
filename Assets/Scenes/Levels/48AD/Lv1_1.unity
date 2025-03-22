@@ -132,33 +132,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 714c06ca3a2c82e4ebe9faac82e71b41, type: 3}
   m_PrefabInstance: {fileID: 1032342327}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &381429816
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 381429812}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!65 &381429817
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -180,6 +153,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.015000001, y: 0.02, z: 0.01732051}
   m_Center: {x: -0.0024999997, y: 0, z: -4.656613e-10}
+--- !u!114 &381429818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381429812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc22e60e3f177643a91ab03b9ddbfa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneIndex: 4
+  audioClip: {fileID: 8300000, guid: 48817df20b28d9a4c8c6cb85cb0f9a32, type: 3}
 --- !u!1 &539136406
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,10 +181,9 @@ GameObject:
   - component: {fileID: 539136409}
   - component: {fileID: 539136408}
   - component: {fileID: 539136407}
-  - component: {fileID: 539136413}
   m_Layer: 0
   m_Name: Sphere_B
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -329,21 +315,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &539136413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539136406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 632d5e83b750d3243b4c6fcfe3f88231, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectC: {fileID: 1916469915}
-  objectB: {fileID: 381429812}
-  collisionSound: {fileID: 8300000, guid: 48817df20b28d9a4c8c6cb85cb0f9a32, type: 3}
 --- !u!1 &724951638
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,10 +923,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 714c06ca3a2c82e4ebe9faac82e71b41, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 381429816}
+      addedObject: {fileID: 381429817}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 714c06ca3a2c82e4ebe9faac82e71b41, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 381429817}
+      addedObject: {fileID: 381429818}
   m_SourcePrefab: {fileID: 100100000, guid: 714c06ca3a2c82e4ebe9faac82e71b41, type: 3}
 --- !u!4 &1290661911 stripped
 Transform:
@@ -1304,6 +1275,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 499812dfdd24ffd4aa10657b53a4ec85, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1704784755}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 499812dfdd24ffd4aa10657b53a4ec85, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1704784759}
   m_SourcePrefab: {fileID: 100100000, guid: 499812dfdd24ffd4aa10657b53a4ec85, type: 3}
 --- !u!1 &1704784754 stripped
 GameObject:
@@ -1317,7 +1291,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704784754}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5a3a35a33ffebb04bac04e021f9eba1e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1325,12 +1299,26 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.02, y: 0.02, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1704784759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704784754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc22e60e3f177643a91ab03b9ddbfa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneIndex: 3
+  audioClip: {fileID: 8300000, guid: d9d86d0ab105d5749aa4b696e5103a9d, type: 3}
 --- !u!1 &1778478110
 GameObject:
   m_ObjectHideFlags: 0
