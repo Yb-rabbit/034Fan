@@ -1345,8 +1345,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1640280359}
-        m_TargetAssemblyTypeName: Button_ExitGame, Assembly-CSharp
-        m_MethodName: 
+        m_TargetAssemblyTypeName: Button_Scene_Change, Assembly-CSharp
+        m_MethodName: OnPointerClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1355,7 +1355,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &1640280357
 MonoBehaviour:
   m_ObjectHideFlags: 0
