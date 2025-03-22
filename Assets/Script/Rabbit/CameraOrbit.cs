@@ -8,7 +8,14 @@ public class CameraOrbit : MonoBehaviour
     public float minDistance = 2.0f; // 摄像机与目标物体之间的最小距离
     public float maxDistance = 10.0f; // 摄像机与目标物体之间的最大距离
     public float height = 2.0f; // 摄像机的固定高度
+    public float smoothSpeed = 5.0f; // 平滑速度
     private float currentAngle = 0.0f; // 当前旋转角度
+    private float targetDistance; // 目标距离
+
+    void Start()
+    {
+        targetDistance = distance; // 初始化目标距离
+    }
 
     void Update()
     {
@@ -19,12 +26,15 @@ public class CameraOrbit : MonoBehaviour
             currentAngle += orbitSpeed * Time.deltaTime;
         }
 
-        // 检测鼠标滚轮来调整距离
+        // 检测鼠标滚轮来调整目标距离
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        distance -= scroll * 2.0f; // 调整距离的速度
+        targetDistance -= scroll * 2.0f; // 调整目标距离的速度
 
-        // 限制摄像机的最小和最大距离
-        distance = Mathf.Clamp(distance, minDistance, maxDistance);
+        // 限制目标距离的最小和最大值
+        targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
+
+        // 平滑过渡到目标距离
+        distance = Mathf.Lerp(distance, targetDistance, Time.deltaTime * smoothSpeed);
 
         // 计算新的位置
         Vector3 targetPosition = target.position;
