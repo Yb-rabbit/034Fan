@@ -29,8 +29,6 @@ public class PlayerMovement : MonoBehaviour
         if (moveDirection != Vector3.zero)
         {
             rb.MovePosition(rb.position + moveDirection.normalized * moveSpeed * Time.fixedDeltaTime);
-            // 更新小方块的面向
-            transform.LookAt(transform.position + moveDirection, Vector3.up);
         }
 
         // 冲刺逻辑
@@ -48,21 +46,13 @@ public class PlayerMovement : MonoBehaviour
     {
         isDashing = true; // 标记为正在冲刺
         float elapsedTime = 0f;
+        float initialSpeed = rb.velocity.magnitude;
 
         while (elapsedTime < dashDuration)
         {
             currentSpeed = Mathf.Lerp(moveSpeed, dashSpeed, elapsedTime / dashDuration);
-            rb.MovePosition(rb.position + direction.normalized * currentSpeed * Time.fixedDeltaTime);
-            elapsedTime += Time.fixedDeltaTime;
-            yield return null;
-        }
-
-        // 冲刺结束，回到普通速度
-        elapsedTime = 0f;
-        while (elapsedTime < dashDuration)
-        {
-            currentSpeed = Mathf.Lerp(dashSpeed, moveSpeed, elapsedTime / dashDuration);
-            rb.MovePosition(rb.position + direction.normalized * currentSpeed * Time.fixedDeltaTime);
+            Vector3 targetPosition = rb.position + direction.normalized * currentSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(targetPosition);
             elapsedTime += Time.fixedDeltaTime;
             yield return null;
         }
@@ -73,9 +63,16 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // 当发生碰撞时，减速
-        if (!isDashing)
+        if (isDashing)
         {
-            rb.velocity *= 0.5f; // 减小速度
+            float reductionFactor = 0.5f; // 减速比例
+            Vector3 newVelocity = rb.velocity * reductionFactor;
+            rb.velocity = newVelocity;
+            // 如果速度过小，则停止冲刺
+            if (rb.velocity.magnitude < moveSpeed)
+            {
+                isDashing = false;
+            }
         }
     }
 }
