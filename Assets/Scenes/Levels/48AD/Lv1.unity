@@ -178,6 +178,14 @@ PrefabInstance:
       propertyPath: objectPrefab
       value: 
       objectReference: {fileID: 5860427985181655933, guid: 58ba4a139c254ce468ad1d9f7143be59, type: 3}
+    - target: {fileID: 7275586066255585110, guid: 61dfebdc4e7ae944695af1f345f1acd5, type: 3}
+      propertyPath: shrinkDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7275586066255585110, guid: 61dfebdc4e7ae944695af1f345f1acd5, type: 3}
+      propertyPath: maxExistenceTime
+      value: 35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
