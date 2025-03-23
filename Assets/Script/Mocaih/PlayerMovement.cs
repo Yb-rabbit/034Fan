@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Reset Settings")]
     public float resetYValue = -10f; // 重置Y值
-    public Vector3 resetPosition = new Vector3(0, 1, 0); // 重置位置
     public AudioClip resetSound; // 重置音效
     public AudioMixerGroup audioMixerGroup; // 混音器组
 
@@ -21,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection; // 移动方向
     private Rigidbody rb; // Rigidbody 组件
     private AudioSource audioSource; // 音频源
+    private Vector3 initialPosition; // 初始位置
 
     private void Start()
     {
@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
         {
             audioSource.outputAudioMixerGroup = audioMixerGroup; // 设置混音器组
         }
+
+        initialPosition = transform.position; // 记录初始位置
     }
 
     private void FixedUpdate()
@@ -117,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ResetPlayer()
     {
-        transform.position = resetPosition; // 重置位置
+        transform.position = initialPosition; // 重置位置为初始位置
         rb.velocity = Vector3.zero; // 重置速度
 
         if (resetSound != null)
