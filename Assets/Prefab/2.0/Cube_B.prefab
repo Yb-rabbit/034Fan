@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 445763764611932425}
   - component: {fileID: 7539587236672376650}
   - component: {fileID: 5289358141220242488}
-  - component: {fileID: 7994829847102657192}
   - component: {fileID: 4698759815887529010}
   - component: {fileID: 4208379404445566195}
   m_Layer: 0
@@ -136,28 +135,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7994829847102657192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5999974132397117515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9e352bfa12a974fa88ec197821c4fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundSpeed: 5
-  airSpeed: 2.5
-  jumpForce: 17
-  acceleration: 3
-  fallThreshold: -23
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  respawnSound: {fileID: 8300000, guid: f0090cffc7aa2cc40974d026a8bde0c0, type: 3}
-  audioMixerGroup: {fileID: 24300002, guid: 0ca6c8712c56b334e882a5803176372a, type: 2}
 --- !u!114 &4698759815887529010
 MonoBehaviour:
   m_ObjectHideFlags: 0
