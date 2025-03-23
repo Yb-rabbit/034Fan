@@ -546,6 +546,7 @@ GameObject:
   - component: {fileID: 928521226}
   - component: {fileID: 928521225}
   - component: {fileID: 928521227}
+  - component: {fileID: 928521228}
   m_Layer: 5
   m_Name: StartShow
   m_TagString: Untagged
@@ -629,6 +630,19 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &928521228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928521223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 531f92fe64b4006438549f5896b649af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 10
 --- !u!1 &929310825
 GameObject:
   m_ObjectHideFlags: 0

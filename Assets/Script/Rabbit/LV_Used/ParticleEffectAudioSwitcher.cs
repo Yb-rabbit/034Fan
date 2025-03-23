@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ParticleEffectAudioSwitcher : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class ParticleEffectAudioSwitcher : MonoBehaviour
     public float switchDuration = 5f; // 自定义秒数
     public float levelSwitchDuration = 10f; // 切换关卡的自定义秒数
     public int nextSceneIndex; // 要切换到的场景索引
+    public GameObject targetObject; // 需要逐渐缩小的对象
+    public float shrinkDuration = 2f; // 缩小的持续时间
 
     private float effectStartTime; // 粒子效果开始时间
     private bool isEffectActive = false; // 粒子效果是否激活
     private bool audioSwitched = false; // 音频是否已切换
+    private bool isShrinking = false; // 是否正在缩小
 
     void Start()
     {
@@ -34,6 +38,7 @@ public class ParticleEffectAudioSwitcher : MonoBehaviour
                 effectStartTime = Time.time;
                 isEffectActive = true;
                 audioSwitched = false; // 重置音频切换状态
+                isShrinking = false; // 重置缩小状态
             }
             else
             {
@@ -44,10 +49,11 @@ public class ParticleEffectAudioSwitcher : MonoBehaviour
                     audioSwitched = true; // 标记音频已切换
                 }
 
-                if (Time.time - effectStartTime >= levelSwitchDuration)
+                if (!isShrinking && Time.time - effectStartTime >= levelSwitchDuration)
                 {
-                    // 粒子效果维持自定义秒数后切换关卡
-                    SwitchLevel();
+                    // 粒子效果维持自定义秒数后开始缩小并切换关卡
+                    StartCoroutine(ShrinkAndSwitchLevel());
+                    isShrinking = true; // 标记为正在缩小
                 }
             }
         }
@@ -66,8 +72,27 @@ public class ParticleEffectAudioSwitcher : MonoBehaviour
         }
     }
 
-    void SwitchLevel()
+    IEnumerator ShrinkAndSwitchLevel()
     {
-        SceneManager.LoadScene(nextSceneIndex); // 切换到指定索引的场景
+        if (targetObject != null)
+        {
+            Vector3 originalScale = targetObject.transform.localScale;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < shrinkDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float scale = Mathf.Lerp(1f, 0f, elapsedTime / shrinkDuration);
+                targetObject.transform.localScale = originalScale * scale;
+                yield return null;
+            }
+
+            // 确保最终缩小为0
+            targetObject.transform.localScale = Vector3.zero;
+        }
+
+        // 切换到指定索引的场景
+        SceneManager.LoadScene(nextSceneIndex);
     }
 }
+
